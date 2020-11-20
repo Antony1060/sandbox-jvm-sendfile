@@ -4,7 +4,7 @@ public class Program
 {
     static
     {
-        NativeLoader.loadLibrary(Program.class.getClassLoader(), "sendfile");
+        NativeLoader.loadLibrary(Program.class.getClassLoader(), "sendfile-jni");
     }
     
     public native int send (String host, String service, String file);
