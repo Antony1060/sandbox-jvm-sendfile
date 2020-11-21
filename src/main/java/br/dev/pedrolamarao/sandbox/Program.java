@@ -57,6 +57,8 @@ public class Program
     
     private static final int SOCK_STREAM = 1;
     
+    private static final int TF_DISCONNECT = 1;
+    
     public int send (String host, String service, String file)
     {
     	// memory layout
@@ -128,12 +130,6 @@ public class Program
 			ws2_32.lookup("connect").get(),
 			MethodType.methodType(int.class, int.class, MemoryAddress.class, int.class),
 			FunctionDescriptor.of(C_INT,     C_INT,     C_POINTER,           C_INT)
-		);
-
-    	final var shutdown = linker.downcallHandle(
-			ws2_32.lookup("shutdown").get(),
-			MethodType.methodType(int.class, int.class, int.class),
-			FunctionDescriptor.of(C_INT,     C_INT,     C_INT)
 		);
 
     	final var closesocket = linker.downcallHandle(
@@ -208,7 +204,7 @@ public class Program
 				return error;
 			}
 			
-			final var r2 = (int) transmitFile.invokeExact(socketHandle, fileHandle, 0, 0, MemoryAddress.NULL, MemoryAddress.NULL, 0);
+			final var r2 = (int) transmitFile.invokeExact(socketHandle, fileHandle, 0, 0, MemoryAddress.NULL, MemoryAddress.NULL, TF_DISCONNECT);
 			if (r2 != 0) {
 				final var error = (int) getlasterror.invokeExact();
 				closeHandle.invoke(fileHandle);
@@ -217,8 +213,6 @@ public class Program
 			}
 			
 			closeHandle.invoke(fileHandle);
-			
-			shutdown.invoke(socketHandle, SD_BOTH);
 			
 			closesocket.invoke(socketHandle);
 		} 
