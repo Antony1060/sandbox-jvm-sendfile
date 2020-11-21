@@ -19,4 +19,4 @@ Procedure:
 
 After a successful build:
 
-`java -cp build/libs/sendfile.jar br.dev.pedrolamarao.sandbox.Program [host] [port] [file]`
+`java -cp build/libs/sendfile-jni.jar br.dev.pedrolamarao.sandbox.Program [host] [port] [file]`
