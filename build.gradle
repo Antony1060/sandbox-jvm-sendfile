@@ -1,22 +1,17 @@
 plugins 
 {
-	id 'java'
-	id 'dev.nokee.jni-library'
-	id 'dev.nokee.cpp-language'
-}
-
-library
-{
-    targetMachines = [ machines.windows ]
+    id 'java-library'
 }
 
 java
 {
-    toolchain.languageVersion = JavaLanguageVersion.of(11)
+    toolchain.languageVersion = JavaLanguageVersion.of(16)
 }
 
 dependencies
 {
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.16'
+    implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.16'
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.6.3'    
 }
 
@@ -25,7 +20,13 @@ repositories
     mavenCentral()
 }
 
+tasks.withType(JavaCompile)
+{
+    options.compilerArgs.addAll(['--add-modules', 'jdk.incubator.foreign'])
+}
+
 tasks.withType(Test)
 {
+    jvmArgs '--add-modules', 'jdk.incubator.foreign', '-Dforeign.restricted=permit'
     useJUnitPlatform()
 }

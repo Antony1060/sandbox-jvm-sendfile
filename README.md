@@ -1,4 +1,4 @@
-Date: 2020-11-19
+Date: 2020-11-20
 
 # Summary
 
@@ -8,8 +8,7 @@ This project answers a challenge to write fast network I/O in "java".
 
 Requirements:
 
-- JDK version 11
-- Visual C++ compiler version 14
+- Project Panama early access build
 
 Procedure:
 
@@ -19,4 +18,4 @@ Procedure:
 
 After a successful build:
 
-`java -cp build/libs/sendfile.jar br.dev.pedrolamarao.sandbox.Program [host] [port] [file]`
+`java -cp build/libs/sendfile-panama.jar --add-modules jdk.incubator.foreign -Dforeign.restricted=permit br.dev.pedrolamarao.sandbox.Program [host] [port] [file]`
