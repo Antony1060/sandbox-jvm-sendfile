@@ -164,7 +164,7 @@ public class Program
     		final var addressRef = scope.allocate(C_POINTER, MemoryAddress.NULL);
 			final var r0 = (int) getaddrinfo.invokeExact(host_c.address(), service_c.address(), hint.address(), addressRef.address());
 			if (r0 != 0) {
-				final var error = (int) getlasterror.invoke();
+				final var error = (int) getlasterror.invokeExact();
 				return error;
 			}
 			
